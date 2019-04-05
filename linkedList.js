@@ -18,32 +18,42 @@ function linkedListGenerator() {
 
   function add(value) {
     let newNode = {};
+    // let previousNode = tail;
     newNode.value = value;
     newNode.next = null;
-    if (head === null) {
+    // tail.next = newNode;
+    // tail = newNode;
+
+    if (!head) {
       head = newNode;
-      // tail = newNode;
-    }
-    if (tail === null) {
+      tail = newNode;
+    } else if (head) {
+      tail.next = newNode;
       tail = newNode;
     }
-    if (head !== null) {
-      tail = newNode;
-    }
-    return head;
+    // console.log(head);
+    return newNode;
   }
 
-  function remove() {}
+  function remove(index) {
+    let nodeToRemove = get(index);
+    let nodeToRedirect = get(index - 1);
+
+    nodeToRedirect.next = nodeToRemove.next;
+    return get(index);
+  }
 
   function get(index) {
     let currentNode = getHead();
-    if (currentNode !== undefined) {
-      for (let i = 0; i < index; i++) {
-        currentNode = currentNode.next;
-      }
-    } else {
-      return false;
+    let nextNode = getHead();
+    let i = 0;
+    while (i < index && currentNode !== null) {
+      nextNode = currentNode.next;
+      currentNode = nextNode;
+      i++;
     }
+    if (nextNode === null) return false;
+    return currentNode;
   }
 
   function insert() {}
