@@ -18,7 +18,6 @@ function linkedListGenerator() {
 
   function add(value) {
     let newNode = {};
-    // let previousNode = tail;
     newNode.value = value;
     newNode.next = null;
     // tail.next = newNode;
@@ -37,10 +36,20 @@ function linkedListGenerator() {
 
   function remove(index) {
     let nodeToRemove = get(index);
-    let nodeToRedirect = get(index - 1);
-
-    nodeToRedirect.next = nodeToRemove.next;
-    return get(index);
+    if (get(index) === false) {
+      return false;
+    }
+    if (index === 0) {
+      head = get(index + 1);
+      nodeToRemove.next = null;
+    } else if (nodeToRemove === tail) {
+      let nodeToRedirect = get(index - 1);
+      nodeToRedirect.next = null;
+      tail = nodeToRedirect;
+    } else {
+      let nodeToRedirect = get(index - 1);
+      nodeToRedirect.next = nodeToRemove.next;
+    }
   }
 
   function get(index) {
@@ -56,7 +65,39 @@ function linkedListGenerator() {
     return currentNode;
   }
 
-  function insert() {}
+  function insert(value, index) {
+    if (index < 0) {
+      return false;
+    }
+    if (
+      get(index - 1) === false &&
+      get(index) === false &&
+      get(index + 1) === false
+    ) {
+      return false;
+    }
+
+    let newNode = {};
+    newNode.value = value;
+    newNode.next = null;
+
+    if (index === 0) {
+      newNode.next = head;
+      head = newNode;
+    }
+
+    if (get(index - 1) === tail && get(index) === false) {
+      tail.next = newNode;
+      tail = newNode;
+    }
+
+    if (index > 0 && get(index) !== false) {
+      frontNode = get(index - 1);
+      backNode = get(index);
+      newNode.next = backNode;
+      frontNode.next = newNode;
+    }
+  }
   return {
     getHead: getHead,
     getTail: getTail,
